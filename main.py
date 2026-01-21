@@ -12,7 +12,7 @@ init()
 
 def print_banner():
     """Print application banner"""
-    banner = r"""
+    banner = rf"""
 {Fore.CYAN}{'='*100}
    _____ _             _   _    _ _          
   / ____| |           | | | |  | (_)         
@@ -31,7 +31,7 @@ def print_banner():
 
 def main():
     """Main application entry point"""
-    # print_banner()
+    print_banner()
     
     # Set up argument parser
     parser = argparse.ArgumentParser(
