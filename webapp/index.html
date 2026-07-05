@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockWise Pro - Advanced Stock Analysis</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">📊</span>
+                <span class="logo-text">StockWise Pro</span>
+            </div>
+            <div class="nav-links">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#about" class="nav-link">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                Intelligent Stock Analysis
+                <span class="gradient-text">Powered by AI</span>
+            </h1>
+            <p class="hero-subtitle">
+                Comprehensive analysis of 20 critical factors • Real-time data • Bilingual support
+            </p>
+
+            <!-- Search Bar -->
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="stockInput" class="search-input"
+                        placeholder="Enter stock symbol (e.g., AAPL, MSFT, GOOGL)" autocomplete="off">
+                    <button id="analyzeBtn" class="search-btn">
+                        <span id="btnText">Analyze Stock</span>
+                        <span id="btnLoader" class="spinner" style="display: none;"></span>
+                    </button>
+                </div>
+                <div class="popular-stocks">
+                    <span class="popular-label">Popular:</span>
+                    <button class="stock-chip" data-symbol="AAPL">AAPL</button>
+                    <button class="stock-chip" data-symbol="MSFT">MSFT</button>
+                    <button class="stock-chip" data-symbol="GOOGL">GOOGL</button>
+                    <button class="stock-chip" data-symbol="TSLA">TSLA</button>
+                    <button class="stock-chip" data-symbol="NVDA">NVDA</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Animated Background -->
+        <div class="hero-bg">
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
+            <div class="gradient-orb orb-3"></div>
+        </div>
+    </section>
+
+    <!-- Error Message -->
+    <div id="errorContainer" class="error-container" style="display: none;">
+        <div class="error-content">
+            <span class="error-icon">⚠️</span>
+            <span id="errorMessage"></span>
+            <button class="error-close" onclick="closeError()">×</button>
+        </div>
+    </div>
+
+    <!-- Results Section -->
+    <section id="resultsSection" class="results-section" style="display: none;">
+        <div class="container">
+            <!-- Company Header -->
+            <div class="company-header">
+                <div class="company-info">
+                    <h2 id="companyName" class="company-name">Loading...</h2>
+                    <div class="company-meta">
+                        <span id="stockSymbol" class="stock-symbol">---</span>
+                        <span class="separator">•</span>
+                        <span id="analysisTime" class="analysis-time">---</span>
+                    </div>
+                </div>
+                <button class="new-search-btn" onclick="resetSearch()">
+                    New Search
+                </button>
+            </div>
+
+            <!-- Score Dashboard -->
+            <div class="score-dashboard">
+                <div class="score-main-card">
+                    <div class="score-circle">
+                        <svg class="score-ring" viewBox="0 0 200 200">
+                            <circle class="score-ring-bg" cx="100" cy="100" r="85" />
+                            <circle id="scoreRingProgress" class="score-ring-progress" cx="100" cy="100" r="85" />
+                        </svg>
+                        <div class="score-content">
+                            <div id="overallScore" class="score-number">0</div>
+                            <div class="score-label">Overall Score</div>
+                        </div>
+                    </div>
+
+                    <div class="recommendation-card">
+                        <div id="recommendationBadge" class="rec-badge">HOLD</div>
+                        <div class="rec-details">
+                            <div class="rec-text">
+                                <span id="recEn">Hold</span>
+                                <span class="rec-divider">|</span>
+                                <span id="recZh">持有</span>
+                            </div>
+                            <div id="confidence" class="confidence-text">Medium Confidence</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category Scores -->
+                <div class="category-grid">
+                    <div class="category-card">
+                        <div class="category-header">
+                            <span class="category-icon">📈</span>
+                            <span class="category-name">Fundamental</span>
+                        </div>
+                        <div class="category-score" id="fundamentalScore">0</div>
+                        <div class="category-bar">
+                            <div id="fundamentalBar" class="category-bar-fill"></div>
+                        </div>
+                    </div>
+
+                    <div class="category-card">
+                        <div class="category-header">
+                            <span class="category-icon">💰</span>
+                            <span class="category-name">Valuation</span>
+                        </div>
+                        <div class="category-score" id="valuationScore">0</div>
+                        <div class="category-bar">
+                            <div id="valuationBar" class="category-bar-fill"></div>
+                        </div>
+                    </div>
+
+                    <div class="category-card">
+                        <div class="category-header">
+                            <span class="category-icon">📊</span>
+                            <span class="category-name">Technical</span>
+                        </div>
+                        <div class="category-score" id="technicalScore">0</div>
+                        <div class="category-bar">
+                            <div id="technicalBar" class="category-bar-fill"></div>
+                        </div>
+                    </div>
+
+                    <div class="category-card">
+                        <div class="category-header">
+                            <span class="category-icon">📰</span>
+                            <span class="category-name">Sentiment</span>
+                        </div>
+                        <div class="category-score" id="sentimentScore">0</div>
+                        <div class="category-bar">
+                            <div id="sentimentBar" class="category-bar-fill"></div>
+                        </div>
+                    </div>
+
+                    <div class="category-card">
+                        <div class="category-header">
+                            <span class="category-icon">💵</span>
+                            <span class="category-name">Dividend</span>
+                        </div>
+                        <div class="category-score" id="dividendScore">0</div>
+                        <div class="category-bar">
+                            <div id="dividendBar" class="category-bar-fill"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Analysis -->
+            <div class="detailed-analysis">
+                <h3 class="section-title">Detailed Analysis • 详细分析</h3>
+
+                <!-- Tabs -->
+                <div class="tabs">
+                    <button class="tab active" data-tab="all">All Questions</button>
+                    <button class="tab" data-tab="fundamental">Fundamental</button>
+                    <button class="tab" data-tab="valuation">Valuation</button>
+                    <button class="tab" data-tab="technical">Technical</button>
+                    <button class="tab" data-tab="sentiment">Sentiment</button>
+                </div>
+
+                <!-- Questions List -->
+                <div id="questionsList" class="questions-list"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features-section">
+        <div class="container">
+            <h2 class="section-title">Why Choose StockWise Pro?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>20 Critical Questions</h3>
+                    <p>Comprehensive analysis covering fundamental, valuation, technical, and sentiment factors</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Real-Time Data</h3>
+                    <p>Live market data from Yahoo Finance for accurate, up-to-date analysis</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3>Bilingual Support</h3>
+                    <p>Full English and Chinese support for global investors</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI-Powered</h3>
+                    <p>Intelligent scoring system with automated buy/sell recommendations</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2026 StockWise Pro • Powered by StockWise API</p>
+            <p class="disclaimer">
+                Disclaimer: This tool is for educational purposes only. Not financial advice.
+            </p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockWise - Stock Analysis</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 StockWise</h1>
+            <p class="subtitle">Comprehensive Stock Analysis System | 综合股票分析系统</p>
+        </header>
+
+        <div class="input-section">
+            <h2>Analyze a Stock | 分析股票</h2>
+            <div class="input-group">
+                <input 
+                    type="text" 
+                    id="symbolInput" 
+                    placeholder="Enter stock symbol (e.g., AAPL, MSFT, TSLA)"
+                    autocomplete="off"
+                >
+                <button id="analyzeBtn" onclick="analyzeStock()">
+                    <span id="btnText">Analyze | 分析</span>
+                    <span id="btnLoader" class="loader" style="display: none;"></span>
+                </button>
+            </div>
+            <p class="hint">Press Enter or click Analyze to start</p>
+        </div>
+
+        <div id="results" style="display: none;">
+            <div class="summary-section">
+                <h2>Analysis Summary | 分析摘要</h2>
+                <div class="company-info">
+                    <h3 id="companyName"></h3>
+                    <p id="symbolDisplay"></p>
+                </div>
+                
+                <div class="score-card">
+                    <div class="score-main">
+                        <div class="score-value" id="overallScore">0</div>
+                        <div class="score-label">Overall Score</div>
+                    </div>
+                    <div class="recommendation">
+                        <div class="rec-badge" id="recBadge">HOLD</div>
+                        <div class="rec-text">
+                            <span id="recEn">Hold</span> | <span id="recZh">持有</span>
+                        </div>
+                        <div class="confidence" id="confidence">Medium Confidence</div>
+                    </div>
+                </div>
+
+                <div class="category-scores">
+                    <h3>Category Breakdown | 分类评分</h3>
+                    <div class="score-bars">
+                        <div class="score-bar-item">
+                            <div class="score-bar-label">
+                                <span>Fundamental | 基本面</span>
+                                <span id="fundamentalScore">0</span>
+                            </div>
+                            <div class="score-bar">
+                                <div class="score-bar-fill" id="fundamentalBar"></div>
+                            </div>
+                        </div>
+                        <div class="score-bar-item">
+                            <div class="score-bar-label">
+                                <span>Valuation | 估值</span>
+                                <span id="valuationScore">0</span>
+                            </div>
+                            <div class="score-bar">
+                                <div class="score-bar-fill" id="valuationBar"></div>
+                            </div>
+                        </div>
+                        <div class="score-bar-item">
+                            <div class="score-bar-label">
+                                <span>Technical | 技术</span>
+                                <span id="technicalScore">0</span>
+                            </div>
+                            <div class="score-bar">
+                                <div class="score-bar-fill" id="technicalBar"></div>
+                            </div>
+                        </div>
+                        <div class="score-bar-item">
+                            <div class="score-bar-label">
+                                <span>Sentiment | 情绪</span>
+                                <span id="sentimentScore">0</span>
+                            </div>
+                            <div class="score-bar">
+                                <div class="score-bar-fill" id="sentimentBar"></div>
+                            </div>
+                        </div>
+                        <div class="score-bar-item">
+                            <div class="score-bar-label">
+                                <span>Dividend | 分红</span>
+                                <span id="dividendScore">0</span>
+                            </div>
+                            <div class="score-bar">
+                                <div class="score-bar-fill" id="dividendBar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="details-section">
+                <h2>Detailed Analysis | 详细分析</h2>
+                <div id="questionsList"></div>
+            </div>
+        </div>
+
+        <div id="error" class="error-message" style="display: none;"></div>
+
+        <footer>
+            <p>Powered by StockWise API • Data from Yahoo Finance</p>
+            <p><a href="/docs" target="_blank">API Documentation</a></p>
+        </footer>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
